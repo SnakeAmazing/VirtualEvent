@@ -32,6 +32,12 @@ public class StartCommand implements CommandExecutor {
 
         if (!player.hasPermission("virtualevent.luzverde")) return false;
 
+        if (gameManager.getGameState()) {
+            gameManager.finishGame();
+            player.sendMessage(messages.getString("messages.game.start"));
+            return false;
+        }
+
         player.sendMessage(messages.getString("messages.game.start"));
 
         gameManager.initGame();

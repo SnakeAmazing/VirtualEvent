@@ -1,7 +1,8 @@
 messages:
   game:
-    start: "&aEl juego ha empezado!"
+    start: "&e&lEVENTO &7» &aEl juego ha empezado!"
     start-message: "&e&lEVENTO &7» &aEl juego empezará en 60 segundos."
+    finish: "&e&lEVENTO &7» Has finalizado el juego."
     initializing: "&a¡Bienvenido al evento!"
     time: 15
     starting-soon: "&e&lEVENTO &7» &eEl juego empieza en %seconds% segundos, preparate."
