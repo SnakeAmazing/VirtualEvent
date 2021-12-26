@@ -1,0 +1,12 @@
+main: me.snakeamazing.virtualevent.VirtualEvent
+name: VirtualEvent
+author: SnakeAmazing
+version: 1.0
+api-version: 1.13
+depend:
+  - WorldGuard
+
+commands:
+  luzverde:
+    permission: virtualevent.luzverde
+    description: Empiza el juego.
