@@ -17,6 +17,7 @@ import me.snakeamazing.virtualevent.tasks.UpdateGameTask;
 import me.snakeamazing.virtualevent.util.ActionBarUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.*;
@@ -32,8 +33,11 @@ public class GameManager {
 
     private boolean started = false;
     private boolean canRun = false;
+    private boolean starting = false;
+
     private UpdateGameTask updateGameTask;
     private int actionBarTask;
+    private BukkitTask startingTask;
 
     private Song song;
     private SongPlayer songPlayer;
@@ -47,6 +51,7 @@ public class GameManager {
     }
 
     public void initGame() {
+        starting = true;
         song = NBSDecoder.parse(new File(virtualEvent.getDataFolder(), "song.nbs"));
         songPlayer = new RadioSongPlayer(song);
 
@@ -69,7 +74,7 @@ public class GameManager {
 
         Bukkit.broadcastMessage(messages.getString("messages.game.start-message"));
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(virtualEvent, new Runnable() {
+        startingTask = Bukkit.getScheduler().runTaskLaterAsynchronously(virtualEvent, new Runnable() {
             @Override
             public void run() {
                 updateGame(messages.getInt("messages.game.time"));
@@ -79,11 +84,22 @@ public class GameManager {
 
     public void finishGame() {
         players.clear();
-        updateGameTask.cancel();
+
+        if (updateGameTask != null) {
+            updateGameTask.cancel();
+        } else {
+            startingTask.cancel();
+        }
+
         Bukkit.getScheduler().cancelTask(actionBarTask);
         started = false;
         canRun = false;
+        starting = false;
         songPlayer.destroy();
+    }
+
+    public boolean getGameStarting() {
+        return starting;
     }
 
     public boolean getGameState() {
